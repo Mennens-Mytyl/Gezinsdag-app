@@ -1,0 +1,239 @@
+body {
+    font-family: sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    line-height: 1.6;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem 0;
+    text-align: center;
+    position: relative;
+}
+
+#header-logo {
+    height: 60px;
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+header h1 {
+    margin: 0;
+    padding-bottom: 0.5rem;
+}
+
+nav button {
+    padding: 0.5rem 1rem;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    background-color: #555;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+nav button.active {
+    background-color: #007bff;
+}
+
+main {
+    padding: 1rem;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.view {
+    display: none;
+    margin-top: 1rem;
+    background-color: #fff;
+    padding: 1rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.view.active-view {
+    display: block;
+}
+
+#activity-list {
+    list-style: none;
+    padding: 0;
+}
+
+#activity-list li {
+    padding: 0.8rem;
+    border-bottom: 1px solid #eee;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+#activity-list li:hover {
+    background-color: #e9ecef;
+}
+
+#activity-list li:last-child {
+    border-bottom: none;
+}
+
+#map-container {
+    position: relative;
+    max-width: 100%;
+    overflow: hidden;
+    height: calc(100vh - 200px);
+    min-height: 400px;
+}
+
+#map-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s ease;
+    transform-origin: center center;
+}
+
+#map-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.map-marker {
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    background-color: rgba(0, 123, 255, 0.6);
+    border: 1px solid rgba(0, 123, 255, 0.8);
+    border-radius: 50%;
+    cursor: pointer;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 10px;
+    font-weight: bold;
+    box-shadow: 0 0 5px rgba(0,0,0,0.5);
+    transition: transform 0.2s ease, background-color 0.2s ease;
+    z-index: 2;
+}
+
+.map-marker:hover {
+    background-color: rgba(0, 80, 180, 0.8);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.map-marker.highlight {
+    background-color: rgba(255, 0, 0, 0.8);
+    border: 2px solid rgba(255, 0, 0, 1);
+    transform: translate(-50%, -50%) scale(1.2);
+    z-index: 10;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%;
+    max-width: 500px;
+    border-radius: 5px;
+    position: relative;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+}
+
+.close-btn {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.close-btn:hover,
+.close-btn:focus {
+    color: black;
+    text-decoration: none;
+}
+
+#modal-activity-title {
+    margin-top: 0;
+    color: #333;
+}
+
+#modal-activity-description {
+    color: #555;
+}
+
+#modal-show-on-map-btn {
+    display: block;
+    margin-top: 1rem;
+    padding: 0.6rem 1.2rem;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.2s ease;
+}
+
+#modal-show-on-map-btn:hover {
+    background-color: #0056b3;
+}
+
+/* Zoom transition class */
+.map-zoomed {
+    transform: scale(2);
+}
+
+@media (max-width: 600px) {
+    #header-logo {
+        height: 40px;
+        position: static;
+        margin: 0 auto 10px;
+        display: block;
+        transform: none;
+    }
+
+    .modal-content {
+        width: 95%;
+        margin: 20% auto;
+    }
+
+    nav button {
+        padding: 0.4rem 0.8rem;
+        font-size: 0.9rem;
+    }
+
+    .map-marker {
+        width: 20px;
+        height: 20px;
+        font-size: 9px;
+    }
+
+    #map-container {
+        height: calc(100vh - 250px);
+        min-height: 300px;
+    }
+} 

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gezinsdag Activiteiten</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <img src="logo.png" alt="Logo" id="header-logo">
+        <h1>Gezinsdag Activiteiten</h1>
+        <nav>
+            <button id="show-list-btn" class="active">Lijst</button>
+            <button id="show-map-btn">Plattegrond</button>
+        </nav>
+    </header>
+
+    <main>
+        <section id="list-view" class="view active-view">
+            <h2>Activiteitenlijst</h2>
+            <ul id="activity-list">
+                <!-- Activiteiten worden hier door JavaScript ingevoegd -->
+            </ul>
+        </section>
+
+        <section id="map-view" class="view">
+            <h2>Plattegrond</h2>
+            <div id="map-container">
+                <div id="map-wrapper">
+                    <img src="Plattegrond.png" alt="Plattegrond School" id="map-image">
+                    <!-- Klikbare markers worden hier door JavaScript ingevoegd -->
+                </div>
+                <div id="map-controls">
+                    <button id="zoom-in" aria-label="Inzoomen">+</button>
+                    <button id="zoom-out" aria-label="Uitzoomen">−</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <div id="details-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h3 id="modal-activity-title"></h3>
+            <p id="modal-activity-description"></p>
+            <button id="modal-show-on-map-btn">Toon op kaart</button>
+        </div>
+    </div>
+
+    <footer>
+        <img src="logo.png" alt="Logo" />
+        <p>&copy; 2024 Mytylschool Gezinsdag</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html> 
