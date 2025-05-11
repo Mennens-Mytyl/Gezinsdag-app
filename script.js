@@ -25,40 +25,40 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const locationsData = {
         loc_0: {
-            top: '83.0%',
-            left: '33.0%',
+            top: '82.8%',
+            left: '36.0%',
             number: 'O'
         },
         loc_1: {
-            top: '64.3%',
-            left: '28.8%',
+            top: '65.2%',
+            left: '32.0%',
             number: '1'
         },
         loc_2: {
             top: '53.7%',
-            left: '28.5%',
+            left: '30.5%',
             number: '2'
         },
         loc_3_4: [
             {
-                top: '38.6%',
-                left: '18.0%',
+                top: '38.4%',
+                left: '23.0%',
                 number: '4'
             },
             {
                 top: '54.4%',
-                left: '18.2%',
+                left: '23.0%',
                 number: '3'
             }
         ],
         loc_5: {
-            top: '28.2%',
-            left: '15.4%',
+            top: '28.5%',
+            left: '21.4%',
             number: '5'
         },
         loc_6: {
-            top: '13.6%',
-            left: '16.7%',
+            top: '13.1%',
+            left: '21.4%',
             number: '6'
         },
         loc_7: {
@@ -67,28 +67,28 @@ document.addEventListener('DOMContentLoaded', () => {
             number: '7'
         },
         loc_8: {
-            top: '34.2%',
-            left: '40.8%',
+            top: '34.4%',
+            left: '42.1%',
             number: '8'
         },
         loc_9: {
-            top: '34.3%',
-            left: '47.3%',
+            top: '34.8%',
+            left: '47.6%',
             number: '9'
         },
         loc_10: {
-            top: '38.0%',
-            left: '66.7%',
+            top: '37.2%',
+            left: '64.0%',
             number: '10'
         },
         loc_11: {
             top: '50.4%',
-            left: '66.3%',
+            left: '63.5%',
             number: '11'
         },
         loc_12: {
-            top: '61.4%',
-            left: '65.8%',
+            top: '61.9%',
+            left: '63.6%',
             number: '12'
         },
         loc_13: {
@@ -97,48 +97,48 @@ document.addEventListener('DOMContentLoaded', () => {
             number: '13'
         },
         loc_14: {
-            top: '82.9%',
-            left: '47.6%',
+            top: '82.7%',
+            left: '48.0%',
             number: '14'
         },
         loc_15: {
-            top: '83.5%',
-            left: '40.5%',
+            top: '83.2%',
+            left: '42.3%',
             number: '15'
         },
         loc_16: {
-            top: '56.1%',
-            left: '94.5%',
+            top: '55.3%',
+            left: '85.1%',
             number: '16'
         },
         loc_17: {
-            top: '91.1%',
-            left: '93.6%',
+            top: '91.6%',
+            left: '87.0%',
             number: '17'
         },
         loc_18: {
-            top: '86.1%',
-            left: '93.5%',
+            top: '86.3%',
+            left: '86.8%',
             number: '18'
         },
         loc_19_gang: {
             top: '50.7%',
-            left: '49.8%',
+            left: '49.9%',
             number: '19'
         },
         loc_20_buiten: {
-            top: '74.0%',
-            left: '84.7%',
+            top: '76.1%',
+            left: '78.9%',
             number: '20'
         },
         loc_21_buiten: {
             top: '12.7%',
-            left: '29.4%',
+            left: '32.1%',
             number: '21'
         },
         loc_22_bar: {
-            top: '58.2%',
-            left: '36.5%',
+            top: '57.7%',
+            left: '38.6%',
             number: '22'
         }
     }
@@ -156,16 +156,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const modalDescription = document.getElementById('modal-activity-description');
     const modalShowOnMapBtn = document.getElementById('modal-show-on-map-btn');
     const closeModalBtn = modal.querySelector('.close-btn');
-    const zoomInBtn = document.getElementById('zoom-in');
-    const zoomOutBtn = document.getElementById('zoom-out');
 
     let currentActivityId = null;
     let isZoomed = false;
-    let zoom = 1.7; // standaard zoom
-    let panX = 0;
-    let panY = 0;
-    let isPanning = false;
-    let startX, startY, startPanX, startPanY;
 
     // --- Functions ---
     function switchView(showView) {
@@ -299,64 +292,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Helper: centreer op marker 0
-    function centerOnMarker0() {
-        const marker0 = mapWrapper.querySelector('.map-marker[data-location-key="loc_0"]');
-        if (!marker0) return;
-        // Haal marker-positie in percentages
-        const left = parseFloat(marker0.style.left);
-        const top = parseFloat(marker0.style.top);
-        // Centreer marker 0 in het midden van de container
-        panX = 50 - left;
-        panY = 50 - top;
-        applyTransform();
-    }
-
-    function applyTransform() {
-        mapWrapper.style.transform = `scale(${zoom}) translate(${panX}%, ${panY}%)`;
-    }
-
-    // Pannen (muis/touch)
-    function startPan(e) {
-        isPanning = true;
-        startX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
-        startY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
-        startPanX = panX;
-        startPanY = panY;
-        document.body.style.cursor = 'grabbing';
-    }
-    function panMove(e) {
-        if (!isPanning) return;
-        const x = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
-        const y = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
-        const dx = ((x - startX) / mapContainer.offsetWidth) * 100 / zoom;
-        const dy = ((y - startY) / mapContainer.offsetHeight) * 100 / zoom;
-        panX = startPanX + dx;
-        panY = startPanY + dy;
-        applyTransform();
-    }
-    function endPan() {
-        isPanning = false;
-        document.body.style.cursor = '';
-    }
-
-    mapWrapper.addEventListener('mousedown', startPan);
-    mapWrapper.addEventListener('touchstart', startPan);
-    window.addEventListener('mousemove', panMove);
-    window.addEventListener('touchmove', panMove);
-    window.addEventListener('mouseup', endPan);
-    window.addEventListener('touchend', endPan);
-
-    // Zoomknoppen
-    zoomInBtn.addEventListener('click', () => {
-        zoom = Math.min(zoom + 0.3, 3);
-        applyTransform();
-    });
-    zoomOutBtn.addEventListener('click', () => {
-        zoom = Math.max(zoom - 0.3, 1);
-        applyTransform();
-    });
-
     // --- Event Listeners ---
     showListBtn.addEventListener('click', () => switchView('list'));
     showMapBtn.addEventListener('click', () => switchView('map'));
@@ -372,7 +307,4 @@ document.addEventListener('DOMContentLoaded', () => {
     populateActivityList();
     createMapMarkers();
     switchView('list');
-
-    // Bij laden: standaard centreren op marker 0
-    setTimeout(centerOnMarker0, 300);
 }); 

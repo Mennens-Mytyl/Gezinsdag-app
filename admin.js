@@ -2,40 +2,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // Import the initial locations data from the main app
     const locationsData = {
         loc_0: {
-            top: '83.0%',
-            left: '33.0%',
+            top: '64.9%',
+            left: '31.8%',
             number: 'O'
         },
         loc_1: {
-            top: '64.3%',
-            left: '28.8%',
+            top: '64.9%',
+            left: '31.8%',
             number: '1'
         },
         loc_2: {
             top: '53.7%',
-            left: '28.5%',
+            left: '30.5%',
             number: '2'
         },
         loc_3_4: [
             {
-                top: '38.6%',
-                left: '18.0%',
+                top: '38.4%',
+                left: '23.0%',
                 number: '4'
             },
             {
                 top: '54.4%',
-                left: '18.2%',
+                left: '23.0%',
                 number: '3'
             }
         ],
         loc_5: {
-            top: '28.2%',
-            left: '15.4%',
+            top: '28.5%',
+            left: '21.4%',
             number: '5'
         },
         loc_6: {
-            top: '13.6%',
-            left: '16.7%',
+            top: '13.1%',
+            left: '21.4%',
             number: '6'
         },
         loc_7: {
@@ -44,28 +44,28 @@ document.addEventListener('DOMContentLoaded', () => {
             number: '7'
         },
         loc_8: {
-            top: '34.2%',
-            left: '40.8%',
+            top: '34.4%',
+            left: '42.1%',
             number: '8'
         },
         loc_9: {
-            top: '34.3%',
-            left: '47.3%',
+            top: '34.8%',
+            left: '47.6%',
             number: '9'
         },
         loc_10: {
-            top: '38.0%',
-            left: '66.7%',
+            top: '37.2%',
+            left: '64.0%',
             number: '10'
         },
         loc_11: {
             top: '50.4%',
-            left: '66.3%',
+            left: '63.5%',
             number: '11'
         },
         loc_12: {
-            top: '61.4%',
-            left: '65.8%',
+            top: '61.9%',
+            left: '63.6%',
             number: '12'
         },
         loc_13: {
@@ -74,48 +74,48 @@ document.addEventListener('DOMContentLoaded', () => {
             number: '13'
         },
         loc_14: {
-            top: '82.9%',
-            left: '47.6%',
+            top: '82.7%',
+            left: '48.0%',
             number: '14'
         },
         loc_15: {
-            top: '83.5%',
-            left: '40.5%',
+            top: '83.2%',
+            left: '42.3%',
             number: '15'
         },
         loc_16: {
-            top: '56.1%',
-            left: '94.5%',
+            top: '55.3%',
+            left: '85.1%',
             number: '16'
         },
         loc_17: {
-            top: '91.1%',
-            left: '93.6%',
+            top: '91.6%',
+            left: '87.0%',
             number: '17'
         },
         loc_18: {
-            top: '86.1%',
-            left: '93.5%',
+            top: '86.3%',
+            left: '86.8%',
             number: '18'
         },
         loc_19_gang: {
             top: '50.7%',
-            left: '49.8%',
+            left: '49.9%',
             number: '19'
         },
         loc_20_buiten: {
-            top: '74.0%',
-            left: '84.7%',
+            top: '76.1%',
+            left: '78.9%',
             number: '20'
         },
         loc_21_buiten: {
             top: '12.7%',
-            left: '29.4%',
+            left: '32.1%',
             number: '21'
         },
         loc_22_bar: {
-            top: '58.2%',
-            left: '36.5%',
+            top: '57.7%',
+            left: '38.6%',
             number: '22'
         }
     }
