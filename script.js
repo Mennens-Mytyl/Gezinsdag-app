@@ -141,8 +141,8 @@ document.addEventListener('DOMContentLoaded', () => {
             left: '36.5%',
             number: '22'
         }
-    }
-
+    };
+    
     // --- DOM Elements ---
     const showListBtn = document.getElementById('show-list-btn');
     const showMapBtn = document.getElementById('show-map-btn');
@@ -166,21 +166,115 @@ document.addEventListener('DOMContentLoaded', () => {
     let panY = 0;
     let isPanning = false;
     let startX, startY, startPanX, startPanY;
+    const MOBILE_BREAKPOINT = 600;
+
+    // --- Helper voor marker info onder marker tonen ---
+    let infoBox = null;
+    function showMarkerInfo(marker, activity) {
+        removeMarkerInfo();
+        infoBox = document.createElement('div');
+        infoBox.className = 'marker-info-box';
+        infoBox.innerHTML = `<strong>${activity.number}. ${activity.name}</strong><br>${activity.description}`;
+        // Positioneer de infoBox onder de marker
+        infoBox.style.position = 'absolute';
+        infoBox.style.left = marker.style.left;
+        infoBox.style.top = `calc(${marker.style.top} + 36px)`; // 36px onder de marker
+        infoBox.style.transform = 'translate(-50%, 0)';
+        infoBox.style.background = '#fffbe8';
+        infoBox.style.color = '#231f20';
+        infoBox.style.padding = '10px 14px';
+        infoBox.style.borderRadius = '12px';
+        infoBox.style.boxShadow = '0 2px 8px #fbc83455';
+        infoBox.style.fontSize = '1rem';
+        infoBox.style.zIndex = 20;
+        infoBox.style.minWidth = '180px';
+        mapWrapper.appendChild(infoBox);
+    }
+    function removeMarkerInfo() {
+        if (infoBox && infoBox.parentNode) infoBox.parentNode.removeChild(infoBox);
+        infoBox = null;
+    }
+
+    // --- Aangepaste marker click handler ---
+    function markerClickHandler(activity, marker) {
+        if (mapView.style.display !== 'none') {
+            // In plattegrondweergave: highlight marker en toon info onder marker
+            removeMapHighlights();
+            removeMarkerInfo();
+            marker.classList.add('highlight');
+            showMarkerInfo(marker, activity);
+        } else {
+            // In lijstweergave: open modal
+            showDetails(activity.id);
+        }
+    }
+
+    // --- Pas createMapMarkers aan om deze handler te gebruiken ---
+    function createMapMarkers() {
+        // Remove old markers if any
+        mapWrapper.querySelectorAll('.map-marker').forEach(m => m.remove());
+        Object.entries(locationsData).forEach(([locationKey, value]) => {
+            const coordsArray = Array.isArray(value) ? value : [value];
+            coordsArray.forEach(coords => {
+                const activity = activities.find(act => act.locationKey === locationKey);
+                if (activity) {
+                    const marker = document.createElement('div');
+                    marker.classList.add('map-marker');
+                    marker.style.top = coords.top;
+                    marker.style.left = coords.left;
+                    marker.title = activity.name;
+                    marker.textContent = coords.number;
+                    marker.dataset.activityId = activity.id;
+                    marker.dataset.locationKey = locationKey;
+                    marker.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        markerClickHandler(activity, marker);
+                    });
+                    mapWrapper.appendChild(marker);
+                }
+            });
+        });
+    }
+
+    // --- Pas removeMapHighlights aan om ook infoBox te verwijderen ---
+    function removeMapHighlights() {
+        mapWrapper.querySelectorAll('.map-marker.highlight').forEach(marker => {
+            marker.classList.remove('highlight');
+        });
+        removeMarkerInfo();
+    }
 
     // --- Functions ---
+    function isMobile() {
+        return window.innerWidth <= MOBILE_BREAKPOINT;
+    }
+
     function switchView(showView) {
-        document.querySelectorAll('.view').forEach(v => v.classList.remove('active-view'));
-        document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+        const isMob = isMobile();
+
+        // Verberg alle views direct via style.display
+        listView.style.display = 'none';
+        mapView.style.display = 'none';
+        
+        // Verwijder .active class van knoppen
+        showListBtn.classList.remove('active');
+        showMapBtn.classList.remove('active');
 
         if (showView === 'list') {
-            listView.classList.add('active-view');
+            listView.style.display = isMob ? 'flex' : 'block';
             showListBtn.classList.add('active');
-        } else {
-            mapView.classList.add('active-view');
+            resetMapZoom(); // Reset zoom als we naar de lijst gaan
+        } else { // 'map'
+            mapView.style.display = isMob ? 'flex' : 'block';
             showMapBtn.classList.add('active');
+            // Zorg ervoor dat de kaart correct wordt weergegeven (kan nodig zijn na display none)
+            setTimeout(() => {
+                applyTransform(); 
+                if (!isZoomed && panX === 0 && panY === 0) { 
+                   centerOnMarker0(); 
+                }
+            }, 0);
         }
-        removeMapHighlights();
-        resetMapZoom();
     }
 
     function populateActivityList() {
@@ -194,42 +288,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    function createMapMarkers() {
-        Object.entries(locationsData).forEach(([locationKey, value]) => {
-            const coordsArray = Array.isArray(value) ? value : [value];
-
-            coordsArray.forEach(coords => {
-                const activity = activities.find(act => act.locationKey === locationKey);
-
-                if (activity) {
-                    const marker = document.createElement('div');
-                    marker.classList.add('map-marker');
-                    marker.style.top = coords.top;
-                    marker.style.left = coords.left;
-                    marker.title = activity.name;
-                    marker.textContent = coords.number;
-                    marker.dataset.activityId = activity.id;
-                    marker.dataset.locationKey = locationKey;
-
-                    marker.addEventListener('click', (e) => {
-                        e.stopPropagation();
-                        showDetails(activity.id);
-                    });
-                    mapWrapper.appendChild(marker);
-                }
-            });
-        });
-    }
-
     function showDetails(activityId) {
         const activity = activities.find(act => act.id === activityId);
         if (!activity) return;
-
         currentActivityId = activityId;
-
         modalTitle.textContent = `${activity.number}. ${activity.name}`;
         modalDescription.textContent = activity.description;
-
         if (activity.locationKey && locationsData[activity.locationKey]) {
             modalShowOnMapBtn.style.display = 'block';
             modalShowOnMapBtn.onclick = () => {
@@ -240,7 +304,6 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             modalShowOnMapBtn.style.display = 'none';
         }
-
         modal.style.display = 'block';
     }
 
@@ -254,59 +317,47 @@ document.addEventListener('DOMContentLoaded', () => {
         const markers = mapWrapper.querySelectorAll(`.map-marker[data-location-key="${locationKey}"]`);
         markers.forEach(marker => {
             marker.classList.add('highlight');
-            zoomToMarker(marker);
         });
-    }
-
-    function removeMapHighlights() {
-        mapWrapper.querySelectorAll('.map-marker.highlight').forEach(marker => {
-            marker.classList.remove('highlight');
-        });
+        // Zoom naar de marker, maar alleen als we niet al ingezoomd zijn door pannen/knoppen
+        // Of, als de gebruiker expliciet op een marker klikt, willen we misschien altijd zoomen?
+        // Voor nu: zoom alleen als de kaart nog niet handmatig is ingezoomd.
+        if (!isZoomed || zoom === 1.7) { // 1.7 is de initiële zoom
+             const targetMarker = mapWrapper.querySelector(`.map-marker[data-location-key="${locationKey}"]`);
+             if(targetMarker) zoomToMarker(targetMarker);
+        }
     }
 
     function zoomToMarker(marker) {
-        const rect = marker.getBoundingClientRect();
-        const containerRect = mapContainer.getBoundingClientRect();
-        
-        // Calculate the center point of the marker relative to the container
-        const centerX = (parseFloat(marker.style.left) / 100) * containerRect.width;
-        const centerY = (parseFloat(marker.style.top) / 100) * containerRect.height;
-        
-        // Reset any existing transform
-        resetMapZoom();
-        
-        // Apply the new transform
-        mapWrapper.style.transform = `scale(2) translate(${50 - parseFloat(marker.style.left)}%, ${50 - parseFloat(marker.style.top)}%)`;
-        isZoomed = true;
-        
-        // Add click listener to reset zoom
-        if (!mapContainer.dataset.hasZoomListener) {
-            mapContainer.addEventListener('click', handleMapClick);
-            mapContainer.dataset.hasZoomListener = 'true';
-        }
+        const targetLeft = parseFloat(marker.style.left);
+        const targetTop = parseFloat(marker.style.top);
+        zoom = 2.5; // Stel een vast zoomniveau in voor marker focus
+        panX = 50 - targetLeft;
+        panY = 50 - targetTop;
+        applyTransform();
+        isZoomed = true; 
     }
 
     function resetMapZoom() {
         if (isZoomed) {
-            mapWrapper.style.transform = 'none';
+            zoom = 1.7; // Terug naar initiële zoom
+            centerOnMarker0(); // Hercentreer op marker 0
             isZoomed = false;
         }
     }
 
     function handleMapClick(e) {
+        // Reset zoom alleen als er direct op de kaartafbeelding wordt geklikt
+        // en niet op een marker of een ander interactief element.
         if (isZoomed && e.target.id === 'map-image') {
             resetMapZoom();
         }
     }
-
-    // Helper: centreer op marker 0
+    
     function centerOnMarker0() {
         const marker0 = mapWrapper.querySelector('.map-marker[data-location-key="loc_0"]');
         if (!marker0) return;
-        // Haal marker-positie in percentages
         const left = parseFloat(marker0.style.left);
         const top = parseFloat(marker0.style.top);
-        // Centreer marker 0 in het midden van de container
         panX = 50 - left;
         panY = 50 - top;
         applyTransform();
@@ -316,17 +367,18 @@ document.addEventListener('DOMContentLoaded', () => {
         mapWrapper.style.transform = `scale(${zoom}) translate(${panX}%, ${panY}%)`;
     }
 
-    // Pannen (muis/touch)
     function startPan(e) {
         isPanning = true;
         startX = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
         startY = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
         startPanX = panX;
         startPanY = panY;
-        document.body.style.cursor = 'grabbing';
+        mapWrapper.style.cursor = 'grabbing';
     }
+
     function panMove(e) {
         if (!isPanning) return;
+        e.preventDefault(); // Voorkom scrollen van de pagina tijdens het pannen van de kaart
         const x = e.type.startsWith('touch') ? e.touches[0].clientX : e.clientX;
         const y = e.type.startsWith('touch') ? e.touches[0].clientY : e.clientY;
         const dx = ((x - startX) / mapContainer.offsetWidth) * 100 / zoom;
@@ -334,30 +386,61 @@ document.addEventListener('DOMContentLoaded', () => {
         panX = startPanX + dx;
         panY = startPanY + dy;
         applyTransform();
+        isZoomed = true; // Pannen betekent dat de gebruiker de zoom/pan heeft aangepast
     }
+
     function endPan() {
         isPanning = false;
-        document.body.style.cursor = '';
+        mapWrapper.style.cursor = 'grab';
     }
 
     mapWrapper.addEventListener('mousedown', startPan);
-    mapWrapper.addEventListener('touchstart', startPan);
+    mapWrapper.addEventListener('touchstart', startPan, { passive: false });
     window.addEventListener('mousemove', panMove);
-    window.addEventListener('touchmove', panMove);
+    window.addEventListener('touchmove', panMove, { passive: false });
     window.addEventListener('mouseup', endPan);
     window.addEventListener('touchend', endPan);
+    mapContainer.addEventListener('click', handleMapClick);
 
-    // Zoomknoppen
     zoomInBtn.addEventListener('click', () => {
-        zoom = Math.min(zoom + 0.3, 3);
+        zoom = Math.min(zoom + 0.4, 4);
         applyTransform();
+        isZoomed = true;
     });
+
     zoomOutBtn.addEventListener('click', () => {
-        zoom = Math.max(zoom - 0.3, 1);
+        zoom = Math.max(zoom - 0.4, 1);
+        if (zoom <= 1) isZoomed = false; // Als volledig uitgezoomd, reset isZoomed status
         applyTransform();
     });
 
-    // --- Event Listeners ---
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            const currentActiveButton = document.querySelector('nav button.active');
+            if (currentActiveButton) {
+                switchView(currentActiveButton.id === 'show-list-btn' ? 'list' : 'map');
+            }
+            // Hercalculeer pannen indien nodig na resize, vooral als aspect ratio verandert
+            applyTransform(); 
+        }, 200);
+    });
+
+    // --- Initialization ---
+    populateActivityList();
+    createMapMarkers();
+    switchView('list'); 
+    mapWrapper.style.cursor = 'grab'; 
+    setTimeout(() => {
+        const initialActiveButton = document.querySelector('nav button.active');
+        if (initialActiveButton && initialActiveButton.id === 'show-map-btn'){
+            centerOnMarker0();
+        } else {
+            applyTransform(); // Zorg voor initiële transformatie ook als lijst startview is
+        }
+    }, 100); // Kleine delay om zeker te zijn dat alles geladen is
+
     showListBtn.addEventListener('click', () => switchView('list'));
     showMapBtn.addEventListener('click', () => switchView('map'));
     closeModalBtn.addEventListener('click', closeModal);
@@ -367,12 +450,4 @@ document.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     });
-
-    // --- Initialization ---
-    populateActivityList();
-    createMapMarkers();
-    switchView('list');
-
-    // Bij laden: standaard centreren op marker 0
-    setTimeout(centerOnMarker0, 300);
 }); 
