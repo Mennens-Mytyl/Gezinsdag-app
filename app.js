@@ -8,6 +8,7 @@ const activities = [
   { id: 6,  title: 'Drummen met Dave', description: 'Leer drummen met Dave.' },
   { id: 7,  title: 'Dans', description: 'Dansworkshop voor iedereen.' },
   { id: 8,  title: 'Kunst met Chocolade', description: 'Maak kunst met chocolade.' },
+  { id: 9,  title: 'MR', description: 'Meer informatie over de Medezeggenschapsraad.' },
   { id: 10, title: 'Lotte & Max', description: 'Een voorstelling van Lotte & Max.' },
   { id: 11, title: 'Schminken en tattoos', description: 'Laat je schminken of zet een tattoo.' },
   { id: 12, title: 'Muziek met Monique', description: 'Muziekworkshop met Monique.' },
@@ -15,10 +16,10 @@ const activities = [
   { id: 14, title: 'Zandtekenaar', description: 'Bekijk de zandtekenaar in actie.' },
   { id: 15, title: 'Kunst met Katja', description: 'Kunstworkshop met Katja.' },
   { id: 16, title: 'Reptielenshow', description: 'Ontmoet reptielen van dichtbij.' },
-  { id: 17, title: 'Tiuri', description: 'Doe mee met het belevingstheater van Tiuri'},
+  { id: 17, title: 'Tiuri', description: 'Doe mee met het belevingstheater van Tiuri.'},
   { id: 18, title: 'Rustplek', description: 'Even ontspannen op de rustplek.' },
   { id: 19, title: 'Clini Clowns', description: 'Clini Clowns lopen rond en hebben een eigen kraampje met meer informatie.' },
-  { id: 20, title: 'Frietkraam', description: 'Haal een frietje bij de frietkraam.' },
+  { id: 20, title: 'Frietkraam', description: 'Haal een frietje bij de frietkraam (tot 15.45).' },
   { id: 21, title: 'Springkussen', description: 'Springkussen op het Cruijff court.' },
   { id: 22, title: 'Bar/Popcorn/Suikerspin', description: 'Haal iets lekkers bij de bar.' },
 ];
@@ -64,6 +65,11 @@ let markers = [
       "activityId": 8,
       "x": 0.404392418287263,
       "y": 0.3381783688334971
+    },
+    {
+      "activityId": 9,
+      "x": 0.4741652246362879,
+      "y": 0.3447494790250974
     },
     {
       "activityId": 10,
