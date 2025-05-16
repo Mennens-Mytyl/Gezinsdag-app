@@ -14,7 +14,7 @@ const activities = [
   { id: 13, title: 'Mantelzorgers', description: 'Informatiepunt voor mantelzorgers.' },
   { id: 14, title: 'Zandtekenaar', description: 'Bekijk de zandtekenaar in actie.' },
   { id: 15, title: 'Kunst met Katja', description: 'Kunstworkshop met Katja.' },
-  { id: 16, title: 'Reptielenshow & Tiuri', description: 'Ontmoet reptielen van dichtbij.' },
+  { id: 16, title: 'Reptielenshow', description: 'Ontmoet reptielen van dichtbij.' },
   { id: 17, title: 'Tiuri', description: 'Doe mee met het belevingstheater van Tiuri'},
   { id: 18, title: 'Rustplek', description: 'Even ontspannen op de rustplek.' },
   { id: 19, title: 'Clini Clowns', description: 'Clini Clowns lopen rond en hebben een eigen kraampje met meer informatie.' },
