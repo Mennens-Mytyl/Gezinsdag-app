@@ -14,8 +14,9 @@ const activities = [
   { id: 13, title: 'Mantelzorgers', description: 'Informatiepunt voor mantelzorgers.' },
   { id: 14, title: 'Zandtekenaar', description: 'Bekijk de zandtekenaar in actie.' },
   { id: 15, title: 'Kunst met Katja', description: 'Kunstworkshop met Katja.' },
-  { id: 16, title: 'Reptielenshow & Tiuri', description: 'Ontmoet reptielen van dichtbij. En doe mee met het belevingstheater van Tiuri' },
-  { id: 17, title: 'Rustplek', description: 'Even ontspannen op de rustplek.' },
+  { id: 16, title: 'Reptielenshow & Tiuri', description: 'Ontmoet reptielen van dichtbij.' },
+  { id: 17, title: 'Tiuri', description: 'Doe mee met het belevingstheater van Tiuri'},
+  { id: 18, title: 'Rustplek', description: 'Even ontspannen op de rustplek.' },
   { id: 19, title: 'Clini Clowns', description: 'Clini Clowns lopen rond en hebben een eigen kraampje met meer informatie.' },
   { id: 20, title: 'Frietkraam', description: 'Haal een frietje bij de frietkraam.' },
   { id: 21, title: 'Springkussen', description: 'Springkussen op het Cruijff court.' },
@@ -103,6 +104,11 @@ let markers = [
       "activityId": 17,
       "x": 0.9465619455097177,
       "y": 0.8655068593648454
+    },
+    {
+      "activityId": 18,
+      "x": 0.947018868370742,
+      "y": 0.9197667369653459
     },
     {
       "activityId": 19,
