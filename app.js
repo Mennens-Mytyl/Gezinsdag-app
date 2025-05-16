@@ -160,6 +160,7 @@ window.addEventListener('DOMContentLoaded', () => {
   setupMapPanZoom();
   adminBtn.addEventListener('click', toggleAdminMode);
   hamburgerBtn.addEventListener('click', openMenu);
+  closeMenuBtn.addEventListener('click', closeMenu);
 });
 
 function renderActivityList() {
