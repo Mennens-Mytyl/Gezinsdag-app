@@ -2,7 +2,7 @@
 const activities = [
   { id: 0,  title: 'Ontvangst', description: 'Welkom bij de Gezinsdag!' },
   { id: 1,  title: 'Fotobooth', description: 'Maak een leuke foto!' },
-  { id: 2,  title: 'Bingo', description: 'Doe mee met de bingo en win prijzen!' },
+  { id: 2,  title: 'Zandtekenaar', description: 'Bekijk de zandtekenaar in actie.' },
   { id: 3,  title: 'Gamen met Mark', description: 'Iedereen kan gamen.' },
   { id: 4,  title: 'Gamen met Mark', description: 'Iedereen kan gamen.' },
   { id: 6,  title: 'Drummen met Dave', description: 'Leer drummen met Dave.' },
@@ -13,7 +13,7 @@ const activities = [
   { id: 11, title: 'Schminken en tattoos', description: 'Laat je schminken of zet een tattoo.' },
   { id: 12, title: 'Muziek met Monique', description: 'Muziekworkshop met Monique.' },
   { id: 13, title: 'Mantelzorgers', description: 'Informatiepunt voor mantelzorgers.' },
-  { id: 14, title: 'Zandtekenaar', description: 'Bekijk de zandtekenaar in actie.' },
+  { id: 14, title: title: 'Bingo', description: 'Doe mee met de bingo en win prijzen!' },
   { id: 15, title: 'Kunst met Katja', description: 'Kunstworkshop met Katja.' },
   { id: 16, title: 'Reptielenshow', description: 'Ontmoet reptielen van dichtbij.' },
   { id: 17, title: 'Tiuri', description: 'Doe mee met het belevingstheater van Tiuri.'},
