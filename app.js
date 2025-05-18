@@ -13,7 +13,7 @@ const activities = [
   { id: 11, title: 'Schminken en tattoos', description: 'Laat je schminken of zet een tattoo.' },
   { id: 12, title: 'Muziek met Monique', description: 'Muziekworkshop met Monique.' },
   { id: 13, title: 'Mantelzorgers', description: 'Informatiepunt voor mantelzorgers.' },
-  { id: 14, title: title: 'Bingo', description: 'Doe mee met de bingo en win prijzen!' },
+  { id: 14, title: 'Bingo', description: 'Doe mee met de bingo en win prijzen!' },
   { id: 15, title: 'Kunst met Katja', description: 'Kunstworkshop met Katja.' },
   { id: 16, title: 'Reptielenshow', description: 'Ontmoet reptielen van dichtbij.' },
   { id: 17, title: 'Tiuri', description: 'Doe mee met het belevingstheater van Tiuri.'},
